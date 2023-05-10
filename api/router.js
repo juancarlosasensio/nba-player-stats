@@ -1,8 +1,10 @@
 const { Router } = require('express');
 const { 
+  getPlayersByName 
+} = require('./handlers/basketballRef');
+const { 
   getArticlesByQuery, 
   getFrontPageArticles,
-  getPlayersByName 
 } = require('./handlers/hackerNews');
 
 const router = Router();

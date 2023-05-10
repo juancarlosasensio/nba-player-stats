@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useHN } from "./hooks/useHN";
+import { useBasketballRef } from "./hooks/useBasketballRef";
 import "./App.css";
 
 const App = () => {
@@ -11,7 +12,7 @@ const App = () => {
     }  
   });
   const [query, setQuery] = useState("");
-  const { status, data, error } = useHN(query, requestOptions.current);
+  const { status, data: playerLinks, error } = useBasketballRef('api/players',query, requestOptions.current);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -45,13 +46,12 @@ const App = () => {
         {status === "fetched" && (
           <>
             <div className="query"> {query ? `Showing results for ${query}` : 'Front page results'} </div>
-            {data.length === 0 && <div> No players found! :( </div>}
-            {data.map(player => (
-              <div className="player" key={player.objectID}>
-                <a target="_blank" href={player.url} rel="noopener noreferrer">
-                  {player.title}
+            {playerLinks.length === 0 && <div> No players found! :( </div>}
+            {playerLinks.map((link, i) => (
+              <div className="player" key={`${link}${i}`}>
+                <a target="_blank" href={`https://www.basketball-reference.com${link}`} rel="noopener noreferrer">
+                  {link}
                 </a>{" "}
-                by {player.author}
               </div>
             ))}
           </>
