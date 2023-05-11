@@ -12,7 +12,7 @@ const App = () => {
     }  
   });
   const [query, setQuery] = useState("");
-  const { status, data: playerLinks, error } = useBasketballRef('api/players',query, requestOptions.current);
+  const { status, data: playerLinks, error } = useBasketballRef('api/players', query, requestOptions.current);
 
   const handleSubmit = e => {
     e.preventDefault();

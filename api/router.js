@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { 
-  getPlayersByName 
+  getPlayersByName, 
+  getPlayerData 
 } = require('./handlers/basketballRef');
 const { 
   getArticlesByQuery, 
@@ -12,5 +13,6 @@ const router = Router();
 router.get('/hn', getFrontPageArticles)
 router.get('/hn/:query', getArticlesByQuery)
 router.get('/players/:name', getPlayersByName)
+router.get('/player', getPlayerData)
 
 module.exports = router;
