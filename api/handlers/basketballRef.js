@@ -21,8 +21,7 @@ const getPlayersByName = async (req, res) => {
 }
 
 const getPlayerData = async (req, res) => {
-  // Example player rel path:  /players/d/duranke01.html
-  const { playerlink } = req.query;
+  let { playerlink } = req.query;
   console.log("You've hit /api/player with link: ", playerlink)
 
   if (!playerlink) {
@@ -31,28 +30,28 @@ const getPlayerData = async (req, res) => {
   }
 
   try {
-  //     query: {
-  //   familyname: 'Baggins',
-  //   home: 'Shire'
-  // }
+    
+    if (playerlink[0] !== "/") {
+      playerlink = `/${playerlink}`
+    }
+
     const playerUrl = `https://www.basketball-reference.com/${playerlink}`;
-    const response = await fetch(playerUrl);
-    console.log('response.data', response.data)
-    console.log('response.body', response.body)
-    if (!response.ok) {
+    const bballRefResponse = await fetch(playerUrl);
+    
+    if (!bballRefResponse.ok) {
       res.statusCode = 404;
       return res.end(`No BBall-Ref data found for ${playerUrl}`);
     }
-    const dom = new jsdom.JSDOM(response.data);
-    const document = dom.window.document;
-
+     
+    const page = await bballRefResponse.text()
+    const { document } = (new jsdom.JSDOM(page)).window
     // Retrieve all player data
     const playerData = {};
 
     // Get player name
-    playerData.name = document.querySelector('h1 span').textContent;
+    playerData.name = document.querySelector('h1').textContent
 
-    // Get player stats
+    // // Get player stats
     const statsTable = document.querySelector('#per_game tbody');
     const rows = statsTable.querySelectorAll('tr:not(.thead)');
     const stats = [];
@@ -67,6 +66,7 @@ const getPlayerData = async (req, res) => {
     playerData.stats = stats;
 
     res.status(200).json(playerData);
+    // res.status(200).json({});
   } catch (error) {
     console.log(error);
     res.status(500).send('Error retrieving player data');
