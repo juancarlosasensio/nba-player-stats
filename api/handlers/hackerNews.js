@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const jsdom = require('jsdom');
 const processErrorResponse = require('../utils/processErrorResponse.js');
 const { filterEmptyURL, sortByDate } = require('../utils/hnDataFilters');
 
@@ -26,7 +27,6 @@ const getArticlesByQuery = async (req, res) => {
     processErrorResponse(res, 500, errMessage); 
   }
 }
-
 const getFrontPageArticles = async (req, res) => {
   console.log("You've hit /api/hackerNewsTest with no 'query' param. You'll get front page results.")
   try { 
@@ -50,5 +50,5 @@ const getFrontPageArticles = async (req, res) => {
 
 module.exports = {
   getArticlesByQuery,
-  getFrontPageArticles
+  getFrontPageArticles,
 };

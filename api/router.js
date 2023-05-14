@@ -1,12 +1,18 @@
 const { Router } = require('express');
 const { 
+  getPlayersByName, 
+  getPlayerData 
+} = require('./handlers/basketballRef');
+const { 
   getArticlesByQuery, 
-  getFrontPageArticles 
+  getFrontPageArticles,
 } = require('./handlers/hackerNews');
 
 const router = Router();
 
 router.get('/hn', getFrontPageArticles)
 router.get('/hn/:query', getArticlesByQuery)
+router.get('/players/:name', getPlayersByName)
+router.get('/player', getPlayerData)
 
 module.exports = router;

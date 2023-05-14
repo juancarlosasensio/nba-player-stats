@@ -1,19 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useHN } from "./hooks/useHN";
+import { useBasketballRef } from "./hooks/useBasketballRef";
 import "./App.css";
 
 const App = () => {
   // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options
-  const requestOptions = {
+  const requestOptions = useRef({
     headers: {
       'Authorization': `${process.env.REACT_APP_AUTH_HEADER}`, 
       'Content-Type': 'application/json'
     }  
-  };
+  });
   const [query, setQuery] = useState("");
-  // Avoids infinite loop cause by resetting requestOptions value on every re-render. We don't want fetchOptions to change.
-  const [fetchOptions, ] = useState(requestOptions);
-  const { status, data, error } = useHN(query, fetchOptions);
+  const { status, data: playerLinks, error } = useBasketballRef('api/players', query, requestOptions.current);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -27,33 +26,32 @@ const App = () => {
 
   return (
     <div className="App">
-      <header> Hackernews Search </header>
+      <header>Search for NBA Player stats</header>
       <form className="Form" onSubmit={handleSubmit}>
         <input
           type="text"
           autoFocus
           autoComplete="off"
           name="search"
-          placeholder="Search Hackernews"
+          placeholder="NBA Player Stats Search"
         />
         <button> Search </button>
       </form>
       <main>
         {status === "idle" && (
-          <div> Let's get started by searching for an article! </div>
+          <div> Get started by searching for your fave player by name! </div>
         )}
         {status === "error" && <div>{error}</div>}
         {status === "fetching" && <div className="loading" />}
         {status === "fetched" && (
           <>
-            <div className="query"> {query ? `Search results for ${query}` : 'Front page results'} </div>
-            {data.length === 0 && <div> No articles found! :( </div>}
-            {data.map(article => (
-              <div className="article" key={article.objectID}>
-                <a target="_blank" href={article.url} rel="noopener noreferrer">
-                  {article.title}
+            <div className="query"> {query ? `Showing results for ${query}` : 'Front page results'} </div>
+            {playerLinks.length === 0 && <div> No players found! :( </div>}
+            {playerLinks.map((link, i) => (
+              <div className="player" key={`${link}${i}`}>
+                <a target="_blank" href={`https://www.basketball-reference.com${link}`} rel="noopener noreferrer">
+                  {link}
                 </a>{" "}
-                by {article.author}
               </div>
             ))}
           </>
