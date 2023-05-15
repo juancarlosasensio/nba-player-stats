@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { useHN } from "./hooks/useHN";
 import { useBasketballRef } from "./hooks/useBasketballRef";
 import "./App.css";
 
