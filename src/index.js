@@ -7,7 +7,8 @@ import {
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import ErrorPage from './ErrorPage';
+import ErrorPage from './routes/ErrorPage';
+import PlayerDetails from './routes/PlayerDetails';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />
   },
+  {
+    path: "players/:alpha/:playerLink",
+    element: <PlayerDetails />
+  }
 ])
 
 ReactDOM.render(

@@ -48,7 +48,7 @@ const App = () => {
             {playerLinks.length === 0 && <div> No players found! :( </div>}
             {playerLinks.map((link, i) => (
               <div className="player" key={`${link}${i}`}>
-                <a target="_blank" href={`https://www.basketball-reference.com${link}`} rel="noopener noreferrer">
+                <a href={link}>
                   {link}
                 </a>{" "}
               </div>
