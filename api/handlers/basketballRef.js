@@ -22,7 +22,7 @@ const getPlayersByName = async (req, res) => {
 
 const getPlayerData = async (req, res) => {
   let { playerlink } = req.query;
-  console.log("You've hit /api/player with link: ", playerlink)
+  console.log("\x1b[45m", "YOOOO!! You've hit /api/player with link: ", playerlink)
 
   if (!playerlink) {
     res.statusCode = 400;

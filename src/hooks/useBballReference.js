@@ -5,5 +5,6 @@ export const useBasketballRef = (apiUrl, query, options) => {
   if (query === null) {
       urlToFetch = apiUrl;
   }
+  console.log(urlToFetch)
   return useFetch(`${urlToFetch}`, options);
 }

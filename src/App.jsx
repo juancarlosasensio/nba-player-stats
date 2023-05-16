@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useBasketballRef } from "./hooks/useBasketballRef";
+import { useBasketballRef } from "./hooks/useBballReference";
 import "./App.css";
 
 const App = () => {
@@ -45,7 +45,7 @@ const App = () => {
         {status === "fetched" && (
           <>
             <div className="query"> {query ? `Showing results for ${query}` : 'Front page results'} </div>
-            {playerLinks.length === 0 && <div> No players found! :( </div>}
+            {playerLinks.length === 0 && <div>{`No players found! :(`}</div>}
             {playerLinks.map((link, i) => (
               <div className="player" key={`${link}${i}`}>
                 <a href={link}>

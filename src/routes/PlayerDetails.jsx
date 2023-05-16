@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useBasketballRef } from '../hooks/useBasketballRef';
+import { useBasketballRef } from '../hooks/useBballReference';
 
 function PlayerDetails() {
     const { alpha, playerLink } = useParams();
+
+    console.log(alpha, playerLink)
     const requestOptions = useRef({
     headers: {
       'Authorization': `${process.env.REACT_APP_AUTH_HEADER}`, 
@@ -11,8 +13,8 @@ function PlayerDetails() {
     }  
   });
 
-  // player?playerlink=players/m/malonka01.html
-  const { status, data: playerData, error } = useBasketballRef(`api/player?playerlink=players/${alpha}/${playerLink}`, null, requestOptions.current);
+  // api/player?playerlink=players/m/malonka01.html
+  const { status, data: playerData, error } = useBasketballRef(`/api/player?playerlink=players/${alpha}/${playerLink}`, null, requestOptions.current);
 
   return (    
     <>
