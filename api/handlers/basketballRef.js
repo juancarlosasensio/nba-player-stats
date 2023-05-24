@@ -53,17 +53,24 @@ const getPlayerData = async (req, res) => {
 
     // // Get player stats
     const statsTable = document.querySelector('#per_game tbody');
-    const rows = statsTable.querySelectorAll('tr:not(.thead)');
+    let rows;
     const stats = [];
-    rows.forEach((row) => {
-      const season = row.querySelector('th[data-stat="season"]').textContent;
-      const team = row.querySelector('td[data-stat="team_id"]').textContent;
-      const gamesPlayed = row.querySelector('td[data-stat="g"]').textContent;
-      const pointsPerGame = row.querySelector('td[data-stat="pts_per_g"]').textContent;
-      
-      stats.push({ season, team, gamesPlayed, pointsPerGame });
-    });
-    playerData.stats = stats;
+    if (statsTable) {
+      rows = Array.from(statsTable.querySelectorAll('tr'));
+    }
+
+    if (rows) {
+      rows.forEach((row) => {
+        const season = row.querySelector('th[data-stat="season"] a').textContent;
+        const team = row.querySelector('td[data-stat="team_id"] a').textContent;
+        const gamesPlayed = row.querySelector('td[data-stat="g"]').textContent;
+        const pointsPerGame = row.querySelector('td[data-stat="pts_per_g"]').textContent;
+          
+        stats.push({ season, team, gamesPlayed, pointsPerGame });
+      });
+      playerData.stats = stats;
+    }
+    
 
     res.status(200).json(playerData);
     // res.status(200).json({});

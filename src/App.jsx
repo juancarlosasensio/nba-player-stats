@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { Outlet, Link, Form } from "react-router-dom";
 import { useBasketballRef } from "./hooks/useBballReference";
 import "./App.css";
 
@@ -25,37 +26,40 @@ const App = () => {
 
   return (
     <div className="App">
-      <header>Search for NBA Player stats</header>
-      <form className="Form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          autoFocus
-          autoComplete="off"
-          name="search"
-          placeholder="NBA Player Stats Search"
-        />
-        <button> Search </button>
-      </form>
-      <main>
-        {status === "idle" && (
-          <div> Get started by searching for your fave player by name! </div>
-        )}
-        {status === "error" && <div>{error}</div>}
-        {status === "fetching" && <div className="loading" />}
-        {status === "fetched" && (
-          <>
-            <div className="query"> {query ? `Showing results for ${query}` : 'Front page results'} </div>
-            {playerLinks.length === 0 && <div>{`No players found! :(`}</div>}
-            {playerLinks.map((link, i) => (
-              <div className="player" key={`${link}${i}`}>
-                <a href={link}>
-                  {link}
-                </a>{" "}
-              </div>
-            ))}
-          </>
-        )}
-      </main>
+      <div>
+        <header>Search for NBA Player stats</header>
+        <Form className="Form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            autoFocus
+            autoComplete="off"
+            name="search"
+            placeholder="NBA Player Stats Search"
+          />
+          <button> Search </button>
+        </Form>
+        <main>
+          {status === "idle" && (
+            <div> Get started by searching for your fave player by name! </div>
+          )}
+          {status === "error" && <div>{error}</div>}
+          {status === "fetching" && <div className="loading" />}
+          {status === "fetched" && (
+            <>
+              <div className="query"> {query ? `Showing results for ${query}` : 'Front page results'} </div>
+              {playerLinks.length === 0 && <div>{`No players found! :(`}</div>}
+              {playerLinks.map((link, i) => (
+                <div className="player" key={`${link}${i}`}>
+                  <Link to={link}>{link}</Link>
+                </div>
+              ))}
+            </>
+          )}
+        </main>
+      </div>
+      <div id="detail">
+        <Outlet />
+      </div>
     </div>
   );
 };

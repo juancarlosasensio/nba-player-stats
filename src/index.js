@@ -14,12 +14,14 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "players/:alpha/:playerLink",
+        element: <PlayerDetails />
+      }
+    ]
   },
-  {
-    path: "players/:alpha/:playerLink",
-    element: <PlayerDetails />
-  }
 ])
 
 ReactDOM.render(
