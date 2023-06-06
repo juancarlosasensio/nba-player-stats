@@ -15,15 +15,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    children: [
-      {
-        // TODO: is there a benefit to using query params vs route params?
-        // https://stackoverflow.com/a/14418100
-        path: "players/:alpha/:playerLink",
-        element: <PlayerDetails />
-      }
-    ]
   },
+  {
+    // TODO: is there a benefit to using query params vs route params?
+    // https://stackoverflow.com/a/14418100
+    path: "players/:alpha/:playerLink",
+    element: <PlayerDetails />
+  }
 ])
 
 ReactDOM.render(
