@@ -4,8 +4,8 @@ import { useBasketballRef } from '../hooks/useBballReference';
 
 function PlayerDetails() {
     const { alpha, playerLink } = useParams();
-
     console.log(alpha, playerLink)
+    
     const requestOptions = useRef({
     headers: {
       'Authorization': `${process.env.REACT_APP_AUTH_HEADER}`, 

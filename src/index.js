@@ -5,7 +5,7 @@ import {
   RouterProvider
 } from "react-router-dom";
 import './index.css';
-import App from './App';
+import App from './routes/App';
 import reportWebVitals from './reportWebVitals';
 import ErrorPage from './routes/ErrorPage';
 import PlayerDetails from './routes/PlayerDetails';
@@ -17,6 +17,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        // TODO: is there a benefit to using query params vs route params?
+        // https://stackoverflow.com/a/14418100
         path: "players/:alpha/:playerLink",
         element: <PlayerDetails />
       }
