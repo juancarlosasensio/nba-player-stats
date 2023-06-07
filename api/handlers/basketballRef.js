@@ -206,7 +206,6 @@ const getPlayerData = async (req, res) => {
     playerData.stats = stats;
 
     // Get jersey numbers
-    // TODO: getting the jerseyNumbers is not working.
     const jerseyNumbers = [];
     const jerseyNumberLinks = document.querySelectorAll('.uni_holder.bbr a');
 
