@@ -13,6 +13,7 @@ const router = Router();
 router.get('/hn', getFrontPageArticles)
 router.get('/hn/:query', getArticlesByQuery)
 router.get('/players/:name', getPlayersByName)
+router.get('/players', getPlayersByName)
 router.get('/player', getPlayerData)
 
 module.exports = router;

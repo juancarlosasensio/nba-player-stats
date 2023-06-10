@@ -14,15 +14,26 @@ const App = () => {
   const [query, setQuery] = useState("");
   const { status, data: playerLinks, error } = useBasketballRef('api/players', query, requestOptions.current);
 
+  console.log('from App.jsx', {query})
+
   const handleSubmit = e => {
     e.preventDefault();
 
     const search = e.target.search.value;
+    console.log('from App.jsx', {search})
     if (search) {
       setQuery(search);
       e.target.search.value = "";
     }
   };
+
+    /* 
+    Correct search endpoint:
+    http://localhost:3000/api/players/karl%20malone
+
+    Incorrect search endpoint:
+    http://localhost:3000/players/m/api/players/steph%20curry
+  */
 
   return (
     <div className="App">
@@ -46,8 +57,8 @@ const App = () => {
           {status === "fetching" && <div className="loading" />}
           {status === "fetched" && (
             <>
-              <div className="query"> {query ? `Showing results for ${query}` : 'Front page results'} </div>
-              {playerLinks.length === 0 && <div>{`No players found! :(`}</div>}
+              <div className="query"> {query ? `Showing results for ${query}` : 'Search for your favorite NBA player'} </div>
+              {playerLinks.length === 0 && query && <div>{`No players found! :(`}</div>}
               {playerLinks.map((link, i) => (
                 <div className="player" key={`${link}${i}`}>
                   <Link to={link}>{link}</Link>

@@ -5,15 +5,20 @@ const processErrorResponse = require('../utils/processErrorResponse.js');
 const getPlayersByName = async (req, res) => {
   const { name } = req.params
   console.log("You've hit /api/players with name: ", name)
+
+  if (!name) {
+    res.status(204)
+  }
+
   try {
     const response = await fetch(`https://www.basketball-reference.com/search/search.fcgi?search=${encodeURIComponent(name)}`);
     const html = await response.text() 
     const dom = new jsdom.JSDOM(`${html}`);
     const document = dom.window.document;
-
     const playerLinks = Array.from(document.querySelectorAll(".search-item-name a")).map((linkEl) => (linkEl.getAttribute("href")));
-    playerLinks.forEach(playerLink => console.log(playerLink))
+    
     res.status(200).json(playerLinks)
+
   } catch (err) {
     let errMessage = `${err}`;
     processErrorResponse(res, 500, errMessage);    
@@ -160,7 +165,7 @@ const getPlayerData = async (req, res) => {
   console.log("\x1b[45m", "YOOOO!! You've hit /api/player with link: ", playerlink);
 
   if (!playerlink) {
-    res.statusCode = 400;
+    res.statusCode = 204;
     return res.end('playerlink parameter is required');
   }
 
@@ -229,6 +234,9 @@ const getPlayerData = async (req, res) => {
   }
 }
 
+const noContent = async (req, res) => {
+
+}
 
 module.exports = {
   getPlayersByName,

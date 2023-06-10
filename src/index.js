@@ -10,17 +10,25 @@ import reportWebVitals from './reportWebVitals';
 import ErrorPage from './routes/ErrorPage';
 import PlayerDetails from './routes/PlayerDetails';
 
+  // action={async ({ params, request }) => {
+  //   let formData = await request.formData();
+  //   return fakeUpdateSong(params.songId, formData);
+  // }}
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-  },
-  {
-    // TODO: is there a benefit to using query params vs route params?
-    // https://stackoverflow.com/a/14418100
-    path: "players/:alpha/:playerLink",
-    element: <PlayerDetails />
+    action: null,
+    children: [
+      {
+        // TODO: is there a benefit to using query params vs route params?
+        // https://stackoverflow.com/a/14418100
+        path: "players/:alpha/:playerLink",
+        element: <PlayerDetails />
+      }
+   ]
   }
 ])
 
