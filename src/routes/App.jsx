@@ -12,9 +12,17 @@ const App = () => {
     }  
   });
   const [query, setQuery] = useState("");
+  
+  /* 
+    The call to useBballReference.js happens 3 times, which means 3 renders
+    We know this because of the change in the value of 'status'
+      {status: 'idle'} {query: ''} {playerLinks: Array(0)} {error: null}
+      {urlToFetch: 'api/players/'}
+      {status: 'fetching'} {query: ''} {playerLinks: Array(0)} {error: null}
+      useBballReference.js {urlToFetch: 'api/players/'}
+      {status: 'fetched'} {query: ''} {playerLinks: Array(0)} {error: null}
+  */
   const { status, data: playerLinks, error } = useBasketballRef('api/players', query, requestOptions.current);
-
-  console.log('from App.jsx', {query})
 
   const handleSubmit = e => {
     e.preventDefault();
