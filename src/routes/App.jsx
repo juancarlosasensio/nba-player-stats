@@ -1,18 +1,8 @@
-import React, { useState, useRef } from "react";
-import { Outlet, Link, Form } from "react-router-dom";
-import { useBasketballRef } from "../hooks/useBballReference";
+import React from "react";
+import { Outlet, Link, Form, useLoaderData } from "react-router-dom";
 import "./App.css";
 
 const App = () => {
-  // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options
-  const requestOptions = useRef({
-    headers: {
-      'Authorization': `${process.env.REACT_APP_AUTH_HEADER}`, 
-      'Content-Type': 'application/json'
-    }  
-  });
-  const [query, setQuery] = useState("");
-  
   /* 
     The call to useBballReference.js happens 3 times, which means 3 renders
     We know this because of the change in the value of 'status'
@@ -22,18 +12,6 @@ const App = () => {
       useBballReference.js {urlToFetch: 'api/players/'}
       {status: 'fetched'} {query: ''} {playerLinks: Array(0)} {error: null}
   */
-  const { status, data: playerLinks, error } = useBasketballRef('api/players', query, requestOptions.current);
-
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    const search = e.target.search.value;
-    console.log('from App.jsx', {search})
-    if (search) {
-      setQuery(search);
-      e.target.search.value = "";
-    }
-  };
 
     /* 
     Correct search endpoint:
@@ -43,11 +21,16 @@ const App = () => {
     http://localhost:3000/players/m/api/players/steph%20curry
   */
 
+  const data = useLoaderData();
+
+  console.log({data})
+
   return (
     <div className="App">
       <div>
         <header>Search for NBA Player stats</header>
-        <Form className="Form" onSubmit={handleSubmit}>
+        {/* <Form className="Form" onSubmit={handleSubmit}> */}
+        <Form className="Form" method="get" action="/" >
           <input
             type="text"
             autoFocus
@@ -58,22 +41,17 @@ const App = () => {
           <button> Search </button>
         </Form>
         <main>
-          {status === "idle" && (
-            <div> Get started by searching for your fave player by name! </div>
-          )}
-          {status === "error" && <div>{error}</div>}
-          {status === "fetching" && <div className="loading" />}
-          {status === "fetched" && (
+          {data && (
             <>
-              <div className="query"> {query ? `Showing results for ${query}` : 'Search for your favorite NBA player'} </div>
-              {playerLinks.length === 0 && query && <div>{`No players found! :(`}</div>}
-              {playerLinks.map((link, i) => (
+              <div className="query"></div>
+              {data.map((link, i) => (
                 <div className="player" key={`${link}${i}`}>
                   <Link to={link}>{link}</Link>
                 </div>
               ))}
             </>
-          )}
+          )
+          }
         </main>
       </div>
       <div id="detail">

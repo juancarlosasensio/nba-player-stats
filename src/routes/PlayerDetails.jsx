@@ -7,6 +7,16 @@ function PlayerDetails() {
     console.log('from PlayerDetails.jsx',{alpha}, {playerLink})
 
     /* 
+      TODO: STILL NEED TO FIGURE THIS OUT! NEED TO FOUND A WAY TO USE 
+      REACT ROUTER API'S TO DO THIS. WHY? BECAUSE I THINK IT'S THE MOST STRAIGHTFORWARD WAY
+      OF MAKING A REQUEST TO THE "/" RELATIVE PATH FROM ANYWHERE, AND THUS CALLING THE 
+      APPROPRIATE REACT ROUTER FORM ACTION
+
+      THE PROBLEM WITH THE APPROACH ABOVE: CAN'T SEEM TO FIGURE OUT HOW TO KEEP PARAMS
+      SENT TO REACT ROUTER IN SYNC WITH STATE AND ALSO GET THE DATA THAT I NEED
+      BACK IN THE REACT COMPONENT, LIKE STATUS AND ERRORS OF THE REQUEST :ponder
+
+      
       TODO: fix issue with request to get playerData
 
       When the app first loads and we search for a player like "Karl Malone" from http://localhost:3000/,
