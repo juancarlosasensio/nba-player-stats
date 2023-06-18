@@ -20,14 +20,6 @@ const SearchPlayers = () => {
     setSearchTerm(search);
   };
 
-  if (results.isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (results.isError) {
-    return <div>Error</div>;
-  }
-
   return (
     <div>
       <h2>Search Players</h2>
@@ -35,13 +27,17 @@ const SearchPlayers = () => {
         <input type="text" name="search" placeholder="Search player" />
         <button type="submit">Search</button>
       </form>
-      <ul>
-        {results.data.map((playerLink, i) => (
-          <li key={`${playerLink}-${i}`}>
-            <a href={playerLink}>{playerLink}</a>
-          </li>
-        ))}
-      </ul>
+      {results.isLoading && <div>Loading...</div>}
+      {results.isError && <div>Error</div>}
+      {results.data && (
+        <ul>
+          {results.data.map((playerLink, i) => (
+            <li key={`${playerLink}-${i}`}>
+              <a href={playerLink}>{playerLink}</a>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
