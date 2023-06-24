@@ -6,6 +6,12 @@ import { getPlayerStats } from '../utils/getPlayerStats';
 
 const PlayerStats = () => {
   const { lastNameStartsWith, relLink } = useParams();
+
+  // CHECK THIS OUT
+  // https://tkdodo.eu/blog/react-query-meets-react-router
+
+  // WHY IS THIS NOT CACHING QUERY RESULTS??
+  // https://tkdodo.eu/blog/effective-react-query-keys
   const {data, isLoading, isError, error} = useQuery(['playerStats', `${lastNameStartsWith}/${relLink}`], getPlayerStats);
 
   if (isLoading) {

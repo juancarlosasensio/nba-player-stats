@@ -4,7 +4,14 @@ import { fetchPlayerSearch } from '../utils/fetchPlayerSearch';
 
 const SearchPlayers = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const results = useQuery(['playerSearch', searchTerm], fetchPlayerSearch);
+
+  // WHY IS THIS NOT CACHING QUERY RESULTS??
+  // https://tkdodo.eu/blog/effective-react-query-keys
+  const results = useQuery({
+    queryKey: ['playerSearch', searchTerm],
+    queryFn: () => fetchPlayerSearch(searchTerm)
+    })
+    
   
   const handleSearch = (e) => {
     e.preventDefault();

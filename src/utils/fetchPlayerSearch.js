@@ -5,9 +5,10 @@ const requestOptions = {
     }  
   };
 
-export const fetchPlayerSearch = async ({ queryKey }) => {
-  const searchTerm = queryKey[1]
+export const fetchPlayerSearch = async (searchTerm) => {
 
+  console.log(searchTerm)
+  
   if (!searchTerm) {
     return []
   }
