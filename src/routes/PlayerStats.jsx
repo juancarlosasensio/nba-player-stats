@@ -1,9 +1,15 @@
-import { useParams } from "react-router-dom"
-import usePlayerData from "../hooks/usePlayerData";
+import { useParams } from "react-router-dom";
+import {
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { getPlayerStats } from '../utils/getPlayerStats';
 
-const PlayerSearchResults = () => {
-  const { playerName } = useParams();
-  const { data, isLoading, isError, error } = usePlayerData(playerName);
+const PlayerStats = () => {
+  // eslint-disable-next-line no-unused-vars
+  const queryClient = useQueryClient()
+  const { lastNameStartsWith, relLink } = useParams();
+  const {data, isLoading, isError, error} = useQuery(['playerStats', `${lastNameStartsWith}/${relLink}`], getPlayerStats);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -42,4 +48,4 @@ const PlayerSearchResults = () => {
   );
 };
 
-export default PlayerSearchResults;
+export default PlayerStats;

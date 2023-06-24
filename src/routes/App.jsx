@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route} from "react-router-dom";
-// import PlayerSearchResults from "./PlayerSearchResults";
+import PlayerStats from "./PlayerStats";
 import {
   QueryClient,
   QueryClientProvider,
@@ -21,6 +21,7 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path="/" element={<SearchPlayers />} />
+          <Route path="/players/:lastNameStartsWith/:relLink" element={<PlayerStats />} />
         </Routes>
       </QueryClientProvider>  
     </BrowserRouter>
