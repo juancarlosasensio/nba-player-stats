@@ -1,14 +1,8 @@
 import { useState } from 'react';
-import {
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { fetchPlayerSearch } from '../utils/fetchPlayerSearch';
 
 const SearchPlayers = () => {
-  // eslint-disable-next-line no-unused-vars
-  const queryClient = useQueryClient()
-  
   const [searchTerm, setSearchTerm] = useState('');
   const results = useQuery(['playerSearch', searchTerm], fetchPlayerSearch);
   
