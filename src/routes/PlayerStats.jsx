@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   useQuery,
 } from '@tanstack/react-query';
@@ -6,6 +6,8 @@ import { getPlayerStats } from '../utils/getPlayerStats';
 
 const PlayerStats = () => {
   const { lastNameStartsWith, relLink } = useParams();
+
+  const navigate = useNavigate();
 
   // CHECK THIS OUT
   // https://tkdodo.eu/blog/react-query-meets-react-router
@@ -24,6 +26,7 @@ const PlayerStats = () => {
 
   return (
     <div>
+      <button onClick={() => navigate(-1)}>Back</button>
       <h2>Player Search Results</h2>
       {data && (
         <div>
