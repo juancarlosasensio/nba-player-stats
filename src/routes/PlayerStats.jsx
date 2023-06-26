@@ -27,31 +27,44 @@ const PlayerStats = () => {
   return (
     <div>
       <button onClick={() => navigate(-1)}>Back</button>
-      <h2>Player Search Results</h2>
-      {data && (
-        <div>
-          <h3>{data.name}</h3>
-          <img src={data.image} alt={data.name} />
-          <h4>Stats per Season:</h4>
-          <ul>
-            {data.stats.map((stat) => (
-              <li key={stat.season}>
-                Season: {stat.season}, Team: {stat.team}, Games Played: {stat.gamesPlayed}, Points per Game: {stat.pointsPerGame}
-              </li>
+      <h1>{data.name}</h1>
+
+      <section>
+        <h2>Stats per Season</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Season</th>
+              <th scope="col">Team</th>
+              <th scope="col">Games Played</th>
+              <th scope="col">Points Per Game</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.stats.map((stat, index) => (
+              <tr key={index}>
+                <td>{stat.season}</td>
+                <td>{stat.team}</td>
+                <td>{stat.gamesPlayed}</td>
+                <td>{stat.pointsPerGame}</td>
+              </tr>
             ))}
-          </ul>
-          <h4>Jersey Numbers Worn:</h4>
-          <ul>
-            {data.jerseyNumbers.map((jersey) => (
-              <li key={jersey.team}>
-                Team: {jersey.team}, Years: {jersey.years}, Number: {jersey.number}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Jersey Numbers Worn</h2>
+        <ul>
+          {data.jerseyNumbers.map((jerseyNumber, index) => (
+            <li key={index}>
+              <span>Jersey Number:</span> {jerseyNumber.jerseyNumber} - <span>Team and Years:</span> {jerseyNumber.teamAndYears}
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
-  );
-};
+  )
+}
 
 export default PlayerStats;
