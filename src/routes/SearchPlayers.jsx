@@ -28,7 +28,7 @@ const SearchPlayers = () => {
         <input type="text" name="search" placeholder="Search player" />
         <button type="submit">Search</button>
       </form>
-      {results.isLoading && <div>Loading...</div>}
+      {results.isLoading && <div className="loading" />}
       {results.isError && <div>Error</div>}
       {results.data && (
         <ul>

@@ -17,7 +17,7 @@ const PlayerStats = () => {
   const {data, isLoading, isError, error} = useQuery(['playerStats', `${lastNameStartsWith}/${relLink}`], getPlayerStats);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="loading" />
   }
 
   if (isError) {
