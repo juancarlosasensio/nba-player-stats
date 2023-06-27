@@ -22,6 +22,10 @@ const searchByName = async ({ request }) => {
   let url = new URL(request.url);
   let searchTerm = url.searchParams.get("search");
 
+  if (!searchTerm) {
+    return [[], '']
+  }
+
   const res = await searchPlayers(searchTerm, requestOptions)
   const playerLinks = await res.json()
 
@@ -30,8 +34,14 @@ const searchByName = async ({ request }) => {
 
 const getStatsForPlayer = async({ request }) => {
   let { pathname } = new URL(request.url);
+
+  console.log('yo from getStatsPlayer', {pathname})
+
+  if (!pathname || !pathname.includes('players')) {
+    return [];
+  }
   
-  const res = await getPlayerStats(pathname, requestOptions);
+  const res = await getPlayerStats(`${pathname}.htm`, requestOptions);
   const stats = await res.json();
 
   return stats;
@@ -42,13 +52,15 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    loader: searchByName
-  }, 
-  {
-    path: "players/:alpha/:playerLink",
-    element: <PlayerStats />,
-    errorElement: <ErrorPage />,
-    loader: getStatsForPlayer
+    loader: searchByName,
+    children: [
+      {
+        path: "/players/:alpha/:playerLink",
+        element: <PlayerStats />,
+        errorElement: <ErrorPage />,
+        loader: getStatsForPlayer
+    }
+    ]
   }
 ])
 

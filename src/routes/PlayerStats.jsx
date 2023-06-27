@@ -4,8 +4,10 @@ const PlayerStats = () => {
   const data = useLoaderData();
   
   return (
-    <div>
-      {/* <button onClick={() => navigate(-1)}>Back</button> */}
+    <>
+    {!data?.stats?.length && (<div>No data</div>)}
+    {data && (
+      <div>
       <h1>{data.name}</h1>
 
       <section>
@@ -43,6 +45,8 @@ const PlayerStats = () => {
         </ul>
       </section>
     </div>
+    )}
+    </>
   )
 }
 

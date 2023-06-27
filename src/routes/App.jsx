@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Form, useLoaderData } from "react-router-dom";
+import { Link, Form, useLoaderData, Outlet } from "react-router-dom";
 import "./App.css";
 
 const App = () => {
@@ -40,19 +40,21 @@ const App = () => {
           {data && (
             <>
               <div className="query">Showing results for {searchTerm}</div>
-              {data.map((link, i) => (
-                <div className="player" key={`${link}${i}`}>
-                  <Link to={link}>{link}</Link>
-                </div>
-              ))}
+              {data.map((link, i) => {
+                const formattedLink = link.split(".")[0];
+                return (
+                <div className="player" key={`${formattedLink}${i}`}>
+                  <Link to={formattedLink}>{formattedLink}</Link>
+                </div>)
+              })}
             </>
           )
           }
         </main>
       </div>
-      {/* <div id="detail">
+      <div id="detail">
         <Outlet />
-      </div> */}
+      </div>
     </div>
   );
 };
