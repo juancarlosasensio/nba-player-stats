@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Form } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query'
 import { fetchPlayerSearch } from '../utils/fetchPlayerSearch';
 
@@ -24,10 +25,14 @@ const SearchPlayers = () => {
   return (
     <div>
       <h2>Search Players</h2>
-      <form onSubmit={handleSearch}>
+      {/* <form onSubmit={handleSearch}>
         <input type="text" name="search" placeholder="Search player" />
         <button type="submit">Search</button>
-      </form>
+      </form> */}
+      <Form action="/" method="get" >
+        <input type="text" autoFocus />
+          <button> Search </button>
+      </Form>
       {results.isLoading && <div className="loading" />}
       {results.isError && <div>Error</div>}
       {results.data && (

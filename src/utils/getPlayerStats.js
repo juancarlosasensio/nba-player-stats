@@ -1,30 +1,11 @@
-const requestOptions = {
-    headers: {
-      'Authorization': `${process.env.REACT_APP_AUTH_HEADER}`, 
-      'Content-Type': 'application/json'
-    }  
-  };
-
-export const getPlayerStats = async ({ queryKey }) => {
-  const playerLink = queryKey[1];
-
-  console.log('from getPlayerData', {playerLink})
-
-  if (!playerLink) {
-    return []
-  }
-
+export default async function getPlayerStats(link, reqOptions) {
   try {
-    const res = await fetch(`/api/player?playerlink=${playerLink}`, requestOptions);
+    const playerStats = await fetch(`api/player?playerlink=${link}`, reqOptions);
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch player search results');
-    }
+    return playerStats;
 
-    const playerData = await res.json();
-    return playerData;
-    
   } catch (error) {
-    throw new Error(error.message);
+    console.error("Error getting player stats:", error);
+    return [];
   }
-};
+}

@@ -32,6 +32,7 @@ const getPlayersByName = async (req, res) => {
 
 const getPlayerData = async (req, res) => { 
   let { playerlink } = req.query;
+  console.log(playerlink)
   console.log("\x1b[45m", "YOOOO!! You've hit /api/player with link: ", playerlink);
 
   if (!playerlink) {
@@ -44,7 +45,7 @@ const getPlayerData = async (req, res) => {
       playerlink = `/${playerlink}`;
     }
 
-    const playerUrl = `https://www.basketball-reference.com/players${playerlink}`;
+    const playerUrl = `https://www.basketball-reference.com${playerlink}`;
     const bballRefResponse = await fetch(playerUrl);
 
     if (!bballRefResponse.ok) {
