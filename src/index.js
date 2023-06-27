@@ -25,14 +25,15 @@ const searchByName = async ({ request }) => {
   const res = await searchPlayers(searchTerm, requestOptions)
   const playerLinks = await res.json()
 
-  return playerLinks;
+  return [playerLinks, searchTerm];
 }
 
 const getStatsForPlayer = async({ request }) => {
   let { pathname } = new URL(request.url);
+  
   const res = await getPlayerStats(pathname, requestOptions);
-
   const stats = await res.json();
+
   return stats;
 }
 

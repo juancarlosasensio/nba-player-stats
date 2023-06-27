@@ -20,14 +20,12 @@ const App = () => {
     Incorrect search endpoint:
     http://localhost:3000/players/m/api/players/steph%20curry
   */
-
-  const data = useLoaderData();
+  const [data, searchTerm] = useLoaderData();
 
   return (
     <div className="App">
       <div>
         <header>Search for NBA Player stats</header>
-        {/* <Form className="Form" onSubmit={handleSubmit}> */}
         <Form className="Form" method="get" action="/">
           <input
             type="text"
@@ -41,7 +39,7 @@ const App = () => {
         <main>
           {data && (
             <>
-              <div className="query">Showing results for</div>
+              <div className="query">Showing results for {searchTerm}</div>
               {data.map((link, i) => (
                 <div className="player" key={`${link}${i}`}>
                   <Link to={link}>{link}</Link>
