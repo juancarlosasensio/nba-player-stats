@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import {
   createBrowserRouter,
   RouterProvider,
-  redirect
 } from "react-router-dom";
 import './index.css';
 import App from './routes/App';
@@ -19,7 +18,7 @@ const requestOptions = {
   }  
 }
 
-const indexSearchAction = async ({ request }) => {
+const searchByName = async ({ request }) => {
   let url = new URL(request.url);
   let searchTerm = url.searchParams.get("search");
 
@@ -42,14 +41,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    loader: indexSearchAction
+    loader: searchByName
   }, 
   {
-    // TODO: is there a benefit to using query params vs route params?
-    // https://stackoverflow.com/a/14418100
-      path: "players/:alpha/:playerLink",
-      element: <PlayerStats />,
-      loader: getStatsForPlayer
+    path: "players/:alpha/:playerLink",
+    element: <PlayerStats />,
+    errorElement: <ErrorPage />,
+    loader: getStatsForPlayer
   }
 ])
 
