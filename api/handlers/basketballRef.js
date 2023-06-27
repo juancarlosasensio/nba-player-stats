@@ -105,10 +105,6 @@ const getPlayerData = async (req, res) => {
   }
 }
 
-const noContent = async (req, res) => {
-
-}
-
 module.exports = {
   getPlayersByName,
   getPlayerData
