@@ -1,32 +1,11 @@
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  useQuery,
-} from '@tanstack/react-query';
-import { getPlayerStats } from '../utils/getPlayerStats';
+import { useLoaderData } from "react-router-dom";
 
 const PlayerStats = () => {
-  const { lastNameStartsWith, relLink } = useParams();
-
-  const navigate = useNavigate();
-
-  // CHECK THIS OUT
-  // https://tkdodo.eu/blog/react-query-meets-react-router
-
-  // WHY IS THIS NOT CACHING QUERY RESULTS??
-  // https://tkdodo.eu/blog/effective-react-query-keys
-  const {data, isLoading, isError, error} = useQuery(['playerStats', `${lastNameStartsWith}/${relLink}`], getPlayerStats);
-
-  if (isLoading) {
-    return <div className="loading" />
-  }
-
-  if (isError) {
-    return <div>Error: {error.message}</div>;
-  }
-
+  const data = useLoaderData();
+  
   return (
     <div>
-      <button onClick={() => navigate(-1)}>Back</button>
+      {/* <button onClick={() => navigate(-1)}>Back</button> */}
       <h1>{data.name}</h1>
 
       <section>
