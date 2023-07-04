@@ -3,6 +3,7 @@ export default async function searchPlayers(name, reqOptions) {
     if (!name) {
       return [];
     }
+
     const playerLinks = await fetch(`/api/players/${name}`, reqOptions);
 
     return playerLinks

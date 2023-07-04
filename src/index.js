@@ -5,10 +5,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import './index.css';
-import App from './routes/App';
+import App, { loader as indexLoader } from './routes/App';
 import PlayerStats from './routes/PlayerStats';
 import ErrorPage from './routes/ErrorPage';
-import searchPlayers from './utils/searchPlayers';
 import getPlayerStats from './utils/getPlayerStats';
 
 const requestOptions = {
@@ -16,20 +15,6 @@ const requestOptions = {
     'Authorization': `${process.env.REACT_APP_AUTH_HEADER}`, 
     'Content-Type': 'application/json'
   }  
-}
-
-const searchByName = async ({ request }) => {
-  let url = new URL(request.url);
-  let searchTerm = url.searchParams.get("search");
-
-  if (!searchTerm) {
-    return [[], '']
-  }
-
-  const res = await searchPlayers(searchTerm, requestOptions)
-  const playerLinks = await res.json()
-
-  return [playerLinks, searchTerm];
 }
 
 const getStatsForPlayer = async({ request }) => {
@@ -50,7 +35,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage from={'Error when trying route handled by App.jsx'} />,
-    loader: searchByName,
+    loader: indexLoader,
     children: [
       {
         path: "/players/:alpha/:playerLink",

@@ -13,6 +13,7 @@ const getPlayersByName = async (req, res) => {
   try {
     const response = await fetch(`https://www.basketball-reference.com/search/search.fcgi?search=${encodeURIComponent(name)}`);
     const html = await response.text() 
+
     const dom = new jsdom.JSDOM(`${html}`);
     const document = dom.window.document;
     const playerLinks = Array.from(document.querySelectorAll(".search-item-name a")).map((linkEl) => (linkEl.getAttribute("href")));

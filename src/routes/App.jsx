@@ -1,9 +1,30 @@
 import React from "react";
 import { Link, Form, useLoaderData, Outlet } from "react-router-dom";
+import searchPlayers from '../utils/searchPlayers';
 import "./App.css";
 
+const requestOptions = {
+  headers: {
+    'Authorization': `${process.env.REACT_APP_AUTH_HEADER}`, 
+    'Content-Type': 'application/json'
+  }  
+}
+
+export async function loader({ request }) {
+  let url = new URL(request.url);
+  let searchTerm = url.searchParams.get("search");
+
+  if (!searchTerm) { return { playerLinks: [], searchTerm: '' } }
+
+  const res = await searchPlayers(searchTerm, requestOptions)
+  const playerLinks = await res.json()
+
+  return { playerLinks, searchTerm };
+}
+
+
 const App = () => {
-  const [data, searchTerm] = useLoaderData();
+  const { playerLinks, searchTerm } = useLoaderData();
 
   return (
     <div className="App">
@@ -20,10 +41,10 @@ const App = () => {
           <button> Search </button>
         </Form>
         <main>
-          {data && (
+          {playerLinks.length ? (
             <>
               <div className="query">Showing results for {searchTerm}</div>
-              {data.map((link, i) => {
+              {playerLinks.map((link, i) => {
                 const formattedLink = link.split(".")[0];
                 return (
                 <div className="player" key={`${formattedLink}${i}`}>
@@ -31,8 +52,9 @@ const App = () => {
                 </div>)
               })}
             </>
-          )
-          }
+          ) : (
+            <p>No results yet. Please search for a player.</p>
+          )}
         </main>
       </div>
       <div id="detail">
