@@ -26,7 +26,6 @@ app.use("/api", protect(), router);
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
-  console.log('logging req from server.js', {req})
   res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
 });
 
