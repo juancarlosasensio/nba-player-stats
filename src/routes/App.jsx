@@ -1,58 +1,74 @@
-import React from "react";
-import { Link, Form, useLoaderData } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, Form, useLoaderData, Outlet } from "react-router-dom";
+import searchPlayers from '../utils/searchPlayers';
 import "./App.css";
 
+const requestOptions = {
+  headers: {
+    'Authorization': `${process.env.REACT_APP_AUTH_HEADER}`, 
+    'Content-Type': 'application/json'
+  }  
+}
+
+export async function loader({ request }) {
+  let url = new URL(request.url);
+  let searchTerm = url.searchParams.get("search");
+
+  if (!searchTerm) { return { playerLinks: [], searchTerm: '' } }
+
+  const res = await searchPlayers(searchTerm, requestOptions)
+  const playerLinks = await res.json()
+
+  return { playerLinks, searchTerm };
+}
+
+
 const App = () => {
-  /* 
-    The call to useBballReference.js happens 3 times, which means 3 renders
-    We know this because of the change in the value of 'status'
-      {status: 'idle'} {query: ''} {playerLinks: Array(0)} {error: null}
-      {urlToFetch: 'api/players/'}
-      {status: 'fetching'} {query: ''} {playerLinks: Array(0)} {error: null}
-      useBballReference.js {urlToFetch: 'api/players/'}
-      {status: 'fetched'} {query: ''} {playerLinks: Array(0)} {error: null}
-  */
+  const { playerLinks, searchTerm } = useLoaderData();
 
-    /* 
-    Correct search endpoint:
-    http://localhost:3000/api/players/karl%20malone
+  console.log({playerLinks})
 
-    Incorrect search endpoint:
-    http://localhost:3000/players/m/api/players/steph%20curry
-  */
-  const [data, searchTerm] = useLoaderData();
+  useEffect(() => {
+    document.getElementById("search").value = searchTerm;
+  }, [searchTerm]);
 
   return (
     <div className="App">
       <div>
         <header>Search for NBA Player stats</header>
-        <Form className="Form" method="get" action="/">
+        <Form className="Form" role="search">
           <input
             type="text"
             autoFocus
             autoComplete="off"
             name="search"
+            id="search"
             placeholder="NBA Player Stats Search"
+            defaultValue={searchTerm}
           />
           <button> Search </button>
         </Form>
         <main>
-          {data && (
+          {playerLinks.length ? (
             <>
               <div className="query">Showing results for {searchTerm}</div>
-              {data.map((link, i) => (
-                <div className="player" key={`${link}${i}`}>
-                  <Link to={link}>{link}</Link>
-                </div>
-              ))}
+              {playerLinks.map((arr, i) => {
+                console.log(arr)
+                const formattedLink = arr[0].split(".")[0];
+                return (
+                <div className="player" key={`${formattedLink}${i}`}>
+                  <Link to={formattedLink}>{arr[1]}</Link>
+                </div>)
+              })}
             </>
-          )
-          }
+          ) : (
+            <p>No results yet. Please search for a player.</p>
+          )}
         </main>
       </div>
-      {/* <div id="detail">
+      <div id="detail">
         <Outlet />
-      </div> */}
+      </div>
     </div>
   );
 };

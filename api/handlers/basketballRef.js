@@ -13,10 +13,16 @@ const getPlayersByName = async (req, res) => {
   try {
     const response = await fetch(`https://www.basketball-reference.com/search/search.fcgi?search=${encodeURIComponent(name)}`);
     const html = await response.text() 
+
     const dom = new jsdom.JSDOM(`${html}`);
     const document = dom.window.document;
-    const playerLinks = Array.from(document.querySelectorAll(".search-item-name a")).map((linkEl) => (linkEl.getAttribute("href")));
+    const playerLinks = Array.from(
+      document.querySelectorAll(".search-item-name a"))
+        .map((linkEl) => (
+          [linkEl.getAttribute("href"), linkEl.textContent]
+        ));
     
+    console.log({playerLinks})
     res.status(200).json(playerLinks)
 
   } catch (err) {
@@ -32,8 +38,7 @@ const getPlayersByName = async (req, res) => {
 
 const getPlayerData = async (req, res) => { 
   let { playerlink } = req.query;
-  console.log(playerlink)
-  console.log("\x1b[45m", "YOOOO!! You've hit /api/player with link: ", playerlink);
+  console.log("\x1b[45m", "You've hit /api/player with link: ", playerlink);
 
   if (!playerlink) {
     res.statusCode = 204;

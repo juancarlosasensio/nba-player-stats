@@ -6,13 +6,8 @@ const requestOptions = {
   };
 
 export const fetchPlayerSearch = async (searchTerm) => {
-
-  console.log(searchTerm)
+  if (!searchTerm) { return [] };
   
-  if (!searchTerm) {
-    return []
-  }
-  console.log({searchTerm})
   try {
     const response = await fetch(`/api/players/${encodeURIComponent(searchTerm)}`, requestOptions);
     if (!response.ok) {
