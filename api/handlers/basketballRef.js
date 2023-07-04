@@ -16,8 +16,13 @@ const getPlayersByName = async (req, res) => {
 
     const dom = new jsdom.JSDOM(`${html}`);
     const document = dom.window.document;
-    const playerLinks = Array.from(document.querySelectorAll(".search-item-name a")).map((linkEl) => (linkEl.getAttribute("href")));
+    const playerLinks = Array.from(
+      document.querySelectorAll(".search-item-name a"))
+        .map((linkEl) => (
+          [linkEl.getAttribute("href"), linkEl.textContent]
+        ));
     
+    console.log({playerLinks})
     res.status(200).json(playerLinks)
 
   } catch (err) {

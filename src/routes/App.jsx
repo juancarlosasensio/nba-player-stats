@@ -26,6 +26,8 @@ export async function loader({ request }) {
 const App = () => {
   const { playerLinks, searchTerm } = useLoaderData();
 
+  console.log({playerLinks})
+
   useEffect(() => {
     document.getElementById("search").value = searchTerm;
   }, [searchTerm]);
@@ -50,11 +52,12 @@ const App = () => {
           {playerLinks.length ? (
             <>
               <div className="query">Showing results for {searchTerm}</div>
-              {playerLinks.map((link, i) => {
-                const formattedLink = link.split(".")[0];
+              {playerLinks.map((arr, i) => {
+                console.log(arr)
+                const formattedLink = arr[0].split(".")[0];
                 return (
                 <div className="player" key={`${formattedLink}${i}`}>
-                  <Link to={formattedLink}>{formattedLink}</Link>
+                  <Link to={formattedLink}>{arr[1]}</Link>
                 </div>)
               })}
             </>
