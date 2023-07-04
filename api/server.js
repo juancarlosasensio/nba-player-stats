@@ -25,9 +25,10 @@ app.use(express.static(path.resolve(__dirname, '../public')));
 app.use("/api", protect(), router);
 
 // All other GET requests not handled before will return our React app
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   console.log('logging req from server.js', {req})
+//   res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
+// });
 
 app.set('port', (process.env.PORT || 8081));
 

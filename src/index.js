@@ -21,6 +21,7 @@ const requestOptions = {
 const searchByName = async ({ request }) => {
   let url = new URL(request.url);
   let searchTerm = url.searchParams.get("search");
+  console.log('hi from searchByName', {url}, {searchTerm})
 
   if (!searchTerm) {
     return [[], '']
@@ -51,13 +52,13 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <ErrorPage />,
+    errorElement: <ErrorPage from={'Error when trying route handled by App.jsx'} />,
     loader: searchByName,
     children: [
       {
         path: "/players/:alpha/:playerLink",
         element: <PlayerStats />,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage from={'Error when trying route handled by PlayerStats.jsx'} />,
         loader: getStatsForPlayer
     }
     ]
