@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, Form, useLoaderData, Outlet } from "react-router-dom";
 import searchPlayers from '../utils/searchPlayers';
 import "./App.css";
@@ -26,17 +26,23 @@ export async function loader({ request }) {
 const App = () => {
   const { playerLinks, searchTerm } = useLoaderData();
 
+  useEffect(() => {
+    document.getElementById("search").value = searchTerm;
+  }, [searchTerm]);
+
   return (
     <div className="App">
       <div>
         <header>Search for NBA Player stats</header>
-        <Form className="Form" method="get" action="/">
+        <Form className="Form" role="search">
           <input
             type="text"
             autoFocus
             autoComplete="off"
             name="search"
+            id="search"
             placeholder="NBA Player Stats Search"
+            defaultValue={searchTerm}
           />
           <button> Search </button>
         </Form>
