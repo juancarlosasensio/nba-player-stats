@@ -21,7 +21,6 @@ const requestOptions = {
 const searchByName = async ({ request }) => {
   let url = new URL(request.url);
   let searchTerm = url.searchParams.get("search");
-  console.log('hi from searchByName', {url}, {searchTerm})
 
   if (!searchTerm) {
     return [[], '']
@@ -35,8 +34,6 @@ const searchByName = async ({ request }) => {
 
 const getStatsForPlayer = async({ request }) => {
   let { pathname } = new URL(request.url);
-
-  console.log('yo from getStatsPlayer', {pathname})
 
   if (!pathname || !pathname.includes('players')) {
     return [];

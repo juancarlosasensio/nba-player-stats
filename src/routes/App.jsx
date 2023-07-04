@@ -5,17 +5,6 @@ import "./App.css";
 const App = () => {
   const [data, searchTerm] = useLoaderData();
 
-  console.log(data)
-
-  /* 
-
-    Correct: 
-    /api/players/steph%20curry
-
-    Incorrect:
-    GET /players/m/api/players/steph%20curry
-  */
-
   return (
     <div className="App">
       <div>
